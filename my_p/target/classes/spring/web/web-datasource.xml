@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://kimgigun.cafe24.com:3306/kimgigun"></property>
+        <property name="username" value="kimgigun"></property>
+        <property name="password" value="gigun3515@"></property>
+     </bean>
+
+ 	 <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<property name="dataSource" ref="dataSource"/>
+	 	<property name="configLocation" value="classpath:spring/web/mybatis-config.xml"/>
+	 	<property name="mapperLocations" value="classpath*:com.myproject.web.mapper/*.xml"/>
+	 </bean>
+
+	 <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg ref="sqlSessionFactoryBean"/>
+	 </bean>
+
+	 <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	 	<property name="dataSource" ref="dataSource"/>
+	 </bean>
+
+<!-- 	 <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	   <constructor-arg ref="dataSourceSpied"/>
+	   <property name="logFormatter">
+	      <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+	         <property name="loggingType" value="MULTI_LINE"/>
+	         <property name="sqlPrefix" value="SQL    :"/>
+	      </bean>
+	   </property>
+  	 </bean> -->
+
+
+
+</beans>

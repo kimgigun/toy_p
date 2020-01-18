@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- <!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> -->
+
+
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myproject.web.mapper.VisitCountMapper">
+
+<!-- 	<resultMap id="addVisitCount" type="com.myproject.web.domain.Board">
+    </resultMap>
+    <resultMap id="getAllVisitCount" type="com.myproject.web.domain.BoardInfo">
+    </resultMap>
+    <resultMap id="getAllVisitCount" type="com.myproject.web.domain.BoardInfo">
+    </resultMap> -->
+
+	<insert id="addVisitCount" parameterType = "com.myproject.web.domain.VisitCount">
+		/*com.myproject.web.mapper.VisitCountMapper.addVisitCount*/
+		INSERT INTO kimgigun.VISIT
+		(
+			VISIT_CNT,
+			VISIT_IP,
+			VISIT_REFER,
+			VISIT_AGENT,
+			DATE_TIME
+		)VALUES(
+			IFNULL((SELECT MAX(VISIT_CNT) FROM kimgigun.VISIT as visit),0) + 1,
+			#{visitIp},
+			#{visitRefer},
+			#{visitAgent},
+			now()
+		)
+	</insert>
+
+	<select id="getAllVisitCount"  resultType="java.lang.Integer" >
+		/*com.myproject.web.mapper.VisitCountMapper.getAllVisitCount*/
+		SELECT COUNT(VISIT_CNT) FROM kimgigun.VISIT
+	</select>
+
+	<select id="getTodayVisitCount"  resultType="java.lang.Integer" >
+		/*com.myproject.web.mapper.VisitCountMapper.getAllVisitCount*/
+		SELECT COUNT(VISIT_CNT) FROM kimgigun.VISIT WHERE DATE(now()) = DATE(DATE_TIME);
+	</select>
+
+	<!-- <select id="getTodayVisitCount" resultMap=int parameterType="com.myproject.web.domain.VisitCount">
+		/*com.myproject.web.mapper.VisitCountMapper.getTodayVisitCount*/
+	<![CDATA[
+		SELECT
+			Z.RNUM,
+			Z.AREA,
+			Z.CITYNAME,
+			Z.FOODTYPE,
+			Z.BESTMENU,
+			Z.SHOPNAME,
+			Z.SEARCHINGNAME,
+			Z.REASON,
+			Z.RES_SEQ,
+			TO_CHAR(Z.REG_DT,'YYYY-MM-DD') AS REG_DT,
+			Z.REG_ID,
+			Z.RATING,
+			Z.GOOD,
+			Z.BAD,
+			Z.READ_CNT,
+			Z.REG_IP
+		FROM(
+				SELECT
+					X.RNUM,
+					X.AREA,
+					X.CITYNAME,
+					X.FOODTYPE,
+					X.BESTMENU,
+					X.SHOPNAME,
+					X.SEARCHINGNAME,
+					X.REASON,
+					X.RES_SEQ,
+					X.REG_DT,
+					X.REG_ID,
+					X.RATING,
+					X.GOOD,
+					X.BAD,
+					X.READ_CNT,
+					X.REG_IP
+				FROM
+					(SELECT
+						ROWNUM AS RNUM,
+						A.AREA,
+						A.CITYNAME,
+						A.FOODTYPE,
+						A.BESTMENU,
+						A.SHOPNAME,
+						A.SEARCHINGNAME,
+						A.REASON,
+						A.RES_SEQ,
+						A.REG_DT,
+						A.REG_ID,
+						A.RATING,
+						A.GOOD,
+						A.BAD,
+						A.READ_CNT,
+						A.REG_IP
+					FROM
+						(SELECT * FROM WEB_FAMOUS_RESTAURANT  ORDER BY REG_DT, RES_SEQ ) A
+					) X
+				WHERE
+					X.RNUM <= #{lastRow}
+			) Z
+		WHERE
+
+			Z.RNUM >= #{firstRow}
+	 ]]>
+	</select> -->
+
+
+	<!--
+	<update id="updateMember" parameterType="hashMap">
+	UPDATE Member SET
+		user_pass = #{newPw},
+		user_email = #{newEmail},
+		phone_no = #{newPhoneNo},
+		user_addr = #{newAddr}
+	WHERE user_id = #{id}
+	</update>
+
+	<update id="updatePhoneAndEmail" parameterType="hashMap">
+	UPDATE Member SET
+		user_email = #{email},
+		phone_no = #{phoneNo}
+	WHERE user_id = #{id}
+	</update>
+
+	D
+	<delete id="deleteMember" parameterType="hashMap">
+	DELETE FROM Member
+	WHERE user_id = #{loginedId} AND user_pass = #{pw}
+	</delete>
+
+	<select id="findMemberInfo" resultMap="Member" parameterType="hashMap">
+	SELECT * FROM Member WHERE user_id = #{userId}
+	</select> -->
+
+</mapper>
