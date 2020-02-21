@@ -24,7 +24,7 @@ public class LoggerAspect {
 			 name = "ServiceImpl \t : ";
 		 }
 		 logger.debug(name + type + "," + joinPoint.getSignature().getName() + "()");
-		return joinPoint.proceed();
+		return joinPoint.proceed();   
 		
 	}
 	
