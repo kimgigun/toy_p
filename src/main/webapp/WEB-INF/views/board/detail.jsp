@@ -18,7 +18,7 @@
 	        <span class="date">Today at 5:42PM</span>
 	      </div>
 	      <div class="text">
-	        How artistic!
+	        How artistic!!!!!!!!!!!!!!!!!!!
 	      </div>
 	      <div class="actions">
 	        <a class="reply">Reply</a>
