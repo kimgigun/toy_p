@@ -16,7 +16,7 @@ public class BoardInfo {
 	currPage,
 	listCntOfOnePage, 
 	numOfpageTerm;
-
+ 
 	public int getFirstRow() {
 		return firstRow;
 	}
