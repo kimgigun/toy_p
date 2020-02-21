@@ -20,7 +20,7 @@ public class LoggerAspect {
 		 System.out.println(type);
 		 if(type.indexOf("Controller") > 0){
 			 name = "Controller \t : ";
-		 }else if(type.indexOf("ServiceImpl") > 0){
+		 }else if(type.indexOf("ServiceImpl") > 0){  
 			 name = "ServiceImpl \t : ";
 		 }
 		 logger.debug(name + type + "," + joinPoint.getSignature().getName() + "()");
