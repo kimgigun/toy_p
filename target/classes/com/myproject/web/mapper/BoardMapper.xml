@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myproject.web.mapper.BoardMapper">
+	 <resultMap id="Board" type="com.myproject.web.domain.Board"> 
+     </resultMap>
+     <resultMap id="BoardInfo" type="com.myproject.web.domain.BoardInfo"> 
+     </resultMap>
+	<!--C -->
+	<!-- <insert id="addMember" parameterType="hashMap">
+	INSERT INTO Member(user_id,user_pass,family_name,first_name,kor_name,phone_no,birth_date,user_gen,user_email,
+	user_addr,user_post_num) 
+	VALUES (#{id}, #{pass}, #{familyName}, #{firstName}, #{korName}, #{phoneNo}, #{birthDate}, #{gen}, #{email},
+	 #{addr}, #{postNum})
+	</insert>
+	
+	<select id="findNumberOfMembers" resultType="int">
+	SELECT COUNT(*) FROM Member
+	</select> -->
+	
+	<!--R -->
+<!-- 	
+	<select id="selectMemberInfoList" resultMap="hashMap"  parameterType="hashMap">
+	SELECT * FROM MEMBER 
+	</select> -->
+	<update id="cntUpdate"  parameterType = "hashMap">
+	/*BoardMapper.allOfArtiCount*/
+	UPDATE WEB_FAMOUS_RESTAURANT SET READ_CNT = NVL2(READ_CNT,READ_CNT+1,0) WHERE RES_SEQ = ${articleNum}
+	</update>
+	<select id="allOfArtCount" resultType="int" parameterType = "hashMap">
+	/*BoardMapper.allOfArtiCount*/
+	SELECT COUNT(1) FROM WEB_FAMOUS_RESTAURANT
+	</select>
+	<select id="selectAllOfArticle" resultMap="Board" parameterType ="com.myproject.web.domain.BoardInfo">
+	/*MemberMapper.selectAllOfArticle*/
+	<![CDATA[
+		SELECT
+			Z.RNUM,  
+			Z.AREA,
+			Z.CITYNAME,
+			Z.FOODTYPE,
+			Z.BESTMENU,
+			Z.SHOPNAME,
+			Z.SEARCHINGNAME,
+			Z.REASON,
+			Z.RES_SEQ,
+			TO_CHAR(Z.REG_DT,'YYYY-MM-DD') AS REG_DT,
+			Z.REG_ID,
+			Z.RATING,
+			Z.GOOD,
+			Z.BAD,
+			Z.READ_CNT,
+			Z.REG_IP
+		FROM(
+				SELECT 
+					X.RNUM,  
+					X.AREA,
+					X.CITYNAME,
+					X.FOODTYPE,
+					X.BESTMENU,
+					X.SHOPNAME,
+					X.SEARCHINGNAME,
+					X.REASON,
+					X.RES_SEQ,
+					X.REG_DT,
+					X.REG_ID,
+					X.RATING,
+					X.GOOD,
+					X.BAD,
+					X.READ_CNT,
+					X.REG_IP
+				FROM 
+					(SELECT 
+						ROWNUM AS RNUM,  
+						A.AREA,
+						A.CITYNAME,
+						A.FOODTYPE,
+						A.BESTMENU,
+						A.SHOPNAME,
+						A.SEARCHINGNAME,
+						A.REASON,
+						A.RES_SEQ,
+						A.REG_DT,
+						A.REG_ID,
+						A.RATING,
+						A.GOOD,
+						A.BAD,
+						A.READ_CNT,
+						A.REG_IP
+					FROM 
+						(SELECT * FROM WEB_FAMOUS_RESTAURANT  ORDER BY REG_DT, RES_SEQ ) A
+					) X
+				WHERE 
+					X.RNUM <= #{lastRow}
+			) Z
+		WHERE 	
+		
+			Z.RNUM >= #{firstRow}	 
+	 ]]>		 
+	</select>
+	 
+	<select id="findArticleInfo" resultMap="Board" parameterType="hashMap">
+	select * from WEB_FAMOUS_RESTAURANT where RES_SEQ =#{pageNum}
+	</select>
+
+	<!--
+	<update id="updateMember" parameterType="hashMap">
+	UPDATE Member SET
+		user_pass = #{newPw},
+		user_email = #{newEmail},
+		phone_no = #{newPhoneNo},
+		user_addr = #{newAddr}
+	WHERE user_id = #{id}
+	</update>
+	
+	<update id="updatePhoneAndEmail" parameterType="hashMap">
+	UPDATE Member SET
+		user_email = #{email},
+		phone_no = #{phoneNo}
+	WHERE user_id = #{id}
+	</update>
+	
+	D
+	<delete id="deleteMember" parameterType="hashMap">
+	DELETE FROM Member
+	WHERE user_id = #{loginedId} AND user_pass = #{pw}
+	</delete>
+	
+	<select id="findMemberInfo" resultMap="Member" parameterType="hashMap">
+	SELECT * FROM Member WHERE user_id = #{userId}
+	</select> -->
+	
+</mapper>
