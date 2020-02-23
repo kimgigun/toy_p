@@ -425,8 +425,9 @@
                  <configuration>
                       <url>http://localhost:8081/web</url>
                       <server>TomcatServer</server>
+                      <update>true</update>
                       <username>admin</username>
-                      <password>admin</password>
+                      <password>password</password>
                  </configuration>
             </plugin>
 			
